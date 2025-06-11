@@ -1,11 +1,17 @@
 {
   "name": "basic-discord-bot",
-  "module": "index.js",
+  "module": "index.ts",
   "type": "module",
+  "scripts": {
+    "dev": "bun run index.ts"
+  },
   "devDependencies": {
     "@types/bun": "latest"
   },
   "peerDependencies": {
     "typescript": "^5.0.0"
+  },
+  "dependencies": {
+    "discord.js": "^14.19.3"
   }
 }
