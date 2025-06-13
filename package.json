@@ -1,5 +1,10 @@
 {
-  "name": "basic-discord-bot",
+  "name": "memdl",
+  "description": "A basic Discord app that has a command to download videos, compress them to 10mb and send them to anyone.",
+  "version": "1.0.0",
+  "author": "MountainSpiritq@Github and varma02@Github",
+  "repository": "https://github.com/MountainSpiritq/InstaDiscordBot",
+  "license": "MIT",
   "module": "index.ts",
   "type": "module",
   "scripts": {
