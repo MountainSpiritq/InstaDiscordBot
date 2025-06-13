@@ -16,7 +16,7 @@ async function downloadVideo(url: string): Promise<string> {
     "--output", `${downloadPath}/${vidRoute}.mp4`,
     "--merge-output-format", "mp4",
     "--max-filesize", "514M",
-    "--format", "best[filesize<=10M]/worst",
+    "--format", "bestaudio+bestvideo[filesize<=10M]/worstaudio+worstvideo",
     url,
   ], { stdio: 'pipe' })
   ytdlp.stderr.on("data", (err) => {
@@ -62,6 +62,9 @@ async function compressVideo(videoName: string): Promise<boolean> {
   const audioKbps = 64;
   const videoKbps = totalBitrateKbps - audioKbps;
   return new Promise((res, rej) => {
+    if (videoKbps <= 0) {
+      return rej(new MyError("This video is too large for compression 🗿"));
+    }
     if (size <= maxSize) {
       return res(false)
     }
@@ -74,8 +77,6 @@ async function compressVideo(videoName: string): Promise<boolean> {
       "-y", `${downloadPath}/${videoName}_compressed.mp4`
     ], { stdio: "pipe" });
 
-    ffmpeg.stdout.on("data", () => { });
-    ffmpeg.stderr.on("data", d => console.error(d.toString()));
     ffmpeg.on("exit", (code) => {
       if (code) {
         console.error("ffmpeg exited with code:", code);
@@ -154,7 +155,8 @@ setInterval(() => {
   fs.readdir(downloadPath).then((files) => {
     files.forEach((file) => {
       fs.stat(`${downloadPath}/${file}`).then((fileData) => {
-        if (fileData.birthtimeMs <= Date.now() - 300000) {
+        if (fileData.atimeMs <= Date.now() - 300000) {
+          console.log(`Deleting old file: ${file} (${fileData.atimeMs})`);
           fs.unlink(`${downloadPath}/${file}`).catch((err) => console.error(err))
         }
       }).catch((err) => console.error(err))
