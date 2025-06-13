@@ -1,4 +1,4 @@
-import { ActivityType, ApplicationIntegrationType, AttachmentBuilder, Client, EmbedBuilder, Events, MessageFlags, SlashCommandBuilder } from 'discord.js'
+import { ActivityType, ApplicationIntegrationType, AttachmentBuilder, Client, EmbedBuilder, Events, InteractionContextType, MessageFlags, SlashCommandBuilder } from 'discord.js'
 import { spawn as spawnChildProcess } from "child_process"
 import fs from "node:fs/promises"
 
@@ -96,6 +96,10 @@ const attachmentTomfoolery = new SlashCommandBuilder()
   ).setIntegrationTypes([
     ApplicationIntegrationType.GuildInstall,
     ApplicationIntegrationType.UserInstall,
+  ]).setContexts([
+    InteractionContextType.BotDM,
+    InteractionContextType.Guild,
+    InteractionContextType.PrivateChannel,
   ]);
 
 client.once(Events.ClientReady, readyClient => {
