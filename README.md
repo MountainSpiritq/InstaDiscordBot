@@ -34,5 +34,5 @@ docker run \
   -d \
   --name memdl \
   -e DC_TOKEN=your_discord_token \
-  ghcr.io/mountainspiritq/InstaDiscordBot:latest
+  ghcr.io/mountainspiritq/instadiscordbot:latest
 ```
