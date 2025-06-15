@@ -116,7 +116,7 @@ client.on(Events.InteractionCreate, async interaction => {
   if (!interaction.isChatInputCommand()) return;
 
   if (interaction.commandName === "dl") {
-    interaction.deferReply({ flags: MessageFlags.Ephemeral })
+    interaction.deferReply();
     const url = encodeURI(interaction.options.getString('url') || "");
     console.log("Downloading URL:", url);
     try {
@@ -127,10 +127,13 @@ client.on(Events.InteractionCreate, async interaction => {
           .setDescription(`Video downloaded 😎`)
           .setColor('Green')
       ]})
-      await interaction.followUp({files: [
-        new AttachmentBuilder(`${downloadPath}/${videoName}${compress ? "_compressed" : ""}.mp4`)
-          .setName("file.mp4")
-      ]});
+      await interaction.editReply({
+        embeds: [],
+        files: [
+          new AttachmentBuilder(`${downloadPath}/${videoName}${compress ? "_compressed" : ""}.mp4`)
+            .setName("file.mp4")
+        ]
+      });
     } catch (error) {
       if (error instanceof MyError) {
         interaction.editReply({embeds: [
