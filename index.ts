@@ -16,7 +16,7 @@ async function downloadVideo(url: string): Promise<string> {
     "--output", `${downloadPath}/${vidRoute}.mp4`,
     "--merge-output-format", "mp4",
     "--max-filesize", "514M",
-    "--format", "bestaudio+bestvideo[filesize<=10M]/worstaudio+worstvideo",
+    "--format", "bestaudio+bestvideo[filesize<=10M]/worstaudio+worstvideo/worst",
     url,
   ], { stdio: 'pipe' })
   ytdlp.stderr.on("data", (err) => {
